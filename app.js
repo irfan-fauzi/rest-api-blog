@@ -1,7 +1,10 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const app = express()
 const PORT = 3000
 const productRoutes = require('./src/routes/product')
+
+app.use(bodyParser.json()) // typeJSON
 
 // rules / aturan jika komputer lain / url selain localhost:3000 mengakses data ini
 app.use((req, res, next) => {
