@@ -4,11 +4,11 @@ exports.createBlog = (req, res, next) => {
   const result = {
     message: "create blog successfully",
     data: { 
-      "post_id" : 1,  
-      "created_at" : "12/12/2021",
-      "author" : {
-        "uid" : 1,
-        "name" : "john doe", 
+      post_id : 1,  
+      created_at : "12/12/2021",
+      author : {
+        uid : 1,
+        name : "john doe", 
       },
       title, img, body,
     }
