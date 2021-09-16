@@ -2,8 +2,9 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const PORT = 3000
-const productRoutes = require('./src/routes/product')
+
 const authRouter = require('./src/routes/auth')
+const blogRouter = require('./src/routes/blog')
 
 app.use(bodyParser.json()) // typeJSON
 
@@ -20,7 +21,8 @@ app.use((req, res, next) => {
 })
 
 
-app.use('/v1', productRoutes)
+
 app.use('/v1/auth', authRouter)
+app.use('/v1/blog', blogRouter)
 // Create a Server
 app.listen(PORT)

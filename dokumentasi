@@ -56,6 +56,28 @@ Group : Authantication
 
 Group : BLOG
   [1] - Create Blog Post
+        [POST] : {root.api}/{version}/blog/post
+        req: 
+        {
+          "title" : "title blog",
+          "image" : "imageThumb.png",
+          "body" : "uctor Porta. Augue vitae diam mauris faucibus blandit elit per"
+        }
+        res: 
+        {
+          "message" : "create blog successfully",
+          "data" : {
+            "post_id" : 1,
+            "title" : "title blog",
+            "image" : "imagefile.png"
+            "body" : "uctor Porta. Augue vitae diam mauris faucibus blandit elit per"
+            "created_at" : "12/12/2021"
+            "author" : {
+              "uid" : 1,
+              "name" : "john"
+            }
+          }
+        }
   [2] - Get Blog Post
   [3] - Update Blog Post
   [4] - Delete Blog Post
