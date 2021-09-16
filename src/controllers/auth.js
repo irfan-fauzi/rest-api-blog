@@ -1,14 +1,10 @@
 exports.createRegister = (req, res, next) => {
-  console.log(req.body)
-  res.json({
-    message: "createAccount successfully",
-    data: {
-      id: 1,
-      userName: "irfan fauzi",
-      email: "irfan@yahoo.com",
-      password: "12345"
-    }
-  })
+  const { name, email, password } = req.body
+  const result = {
+    message: "register successfully",
+    data: { uid : 1, name, email, password }
+  }
+  res.status(201).json(result)
   next()
 }
 
