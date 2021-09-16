@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const PORT = 3000
 const productRoutes = require('./src/routes/product')
+const registerRouter = require('./src/routes/register')
 
 app.use(bodyParser.json()) // typeJSON
 
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 })
 
 
-app.use('/', productRoutes)
+app.use('/v1', productRoutes)
+app.use('/v1/auth', registerRouter)
 // Create a Server
 app.listen(PORT)
