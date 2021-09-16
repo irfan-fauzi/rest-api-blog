@@ -1,0 +1,20 @@
+Standar API
+{root.api}/{version}/{grouping}/{endpoint}
+SAMPLE:
+[1] http://api.resepmasakan.com/v1/auth/login
+[2] http://api.resepmasakan.com/v1/resep/seafoods
+
+
+Group : Authantication
+
+[1] - Register
+[2] - Login
+
+Group : BLOG
+
+[1] - Create Blog Post
+[2] - Get Blog Post
+[3] - Update Blog Post
+[4] - Delete Blog Post
+
+

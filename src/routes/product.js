@@ -10,4 +10,4 @@ const router = express.Router()
 router.post('/product', productController.createProduct)
 router.get('/product', productController.readProduct)
 
-module.exports = router 
+module.exports = router
