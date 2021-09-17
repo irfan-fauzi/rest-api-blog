@@ -10,10 +10,13 @@ exports.createRegister = (req, res, next) => {
     err.data = errors.array()
     throw err
   } else {
+
     const { name, email, password } = req.body
+    const users = new User({name, email, password})
+    users.save().then()
     const result = {
       message: "register successfully",
-      data: { uid : 1, name, email, password }
+      users
     }
     res.status(201).json(result)
     next()
