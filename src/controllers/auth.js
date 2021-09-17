@@ -1,11 +1,22 @@
+const { body, validationResult, check } = require('express-validator')
+
 exports.createRegister = (req, res, next) => {
-  const { name, email, password } = req.body
-  const result = {
-    message: "register successfully",
-    data: { uid : 1, name, email, password }
+  
+  const errors = validationResult(req)
+  if(!errors.isEmpty()){
+    return res.status(400).json({
+      errors: errors.array()
+    })
+  } else {
+    const { name, email, password } = req.body
+    const result = {
+      message: "register successfully",
+      data: { uid : 1, name, email, password }
+    }
+    res.status(201).json(result)
+    next()
   }
-  res.status(201).json(result)
-  next()
+ 
 }
 
 exports.readRegister = (req, res, next) => {
