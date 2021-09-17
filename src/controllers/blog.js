@@ -2,12 +2,13 @@ const { validationResult } = require('express-validator')
 
 exports.createBlog = (req, res, next) => {
   const errors = validationResult(req)
+  
   if(!errors.isEmpty()){
     return res.status(400).json({
       errors: errors.array()
     })
   } else {
-    const { img, title, body } = req.body
+    const { img, title, bodyBlog } = req.body
     const result = {
     message: "create blog successfully",
     data: { 
@@ -17,7 +18,7 @@ exports.createBlog = (req, res, next) => {
         uid : 1,
         name : "john doe", 
       },
-      title, img, body,
+      title, img, bodyBlog,
     }
   }
   res.status(201).json(result)
