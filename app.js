@@ -24,5 +24,11 @@ app.use((req, res, next) => {
 
 app.use('/v1/auth', authRouter)
 app.use('/v1/blog', blogRouter)
+
+// default error
+// app.use((error, req, res) => {
+//   res.status(400).json({ message: 'Error', data: 'data disini' })
+// })
+
 // Create a Server
 app.listen(PORT)
