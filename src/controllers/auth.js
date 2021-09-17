@@ -1,4 +1,4 @@
-const { body, validationResult, check } = require('express-validator')
+const { validationResult } = require('express-validator')
 
 exports.createRegister = (req, res, next) => {
   
