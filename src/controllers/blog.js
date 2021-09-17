@@ -4,9 +4,10 @@ exports.createBlog = (req, res, next) => {
   const errors = validationResult(req)
   
   if(!errors.isEmpty()){
-    return res.status(400).json({
-      errors: errors.array()
-    })
+    const err = new Error('Input value tidak sesuai')
+    err.errorStatus = 400
+    err.data = errors.array()
+    throw err
   } else {
     const { img, title, bodyBlog } = req.body
     const result = {

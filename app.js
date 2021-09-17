@@ -6,6 +6,7 @@ const PORT = 3000
 const authRouter = require('./src/routes/auth')
 const blogRouter = require('./src/routes/blog')
 
+
 app.use(bodyParser.json()) // typeJSON
 
 // rules / aturan jika komputer lain / url selain localhost:3000 mengakses data ini
@@ -20,15 +21,17 @@ app.use((req, res, next) => {
   next()
 })
 
-
-
 app.use('/v1/auth', authRouter)
 app.use('/v1/blog', blogRouter)
 
 // default error
-// app.use((error, req, res) => {
-//   res.status(400).json({ message: 'Error', data: 'data disini' })
-// })
+app.use((error, req, res, next) => {
+  const status = error.errorStatus || 500
+  const message = error.message
+  const data = error.data
+
+  res.status(status).json({ message , data })
+})
 
 // Create a Server
 app.listen(PORT)
