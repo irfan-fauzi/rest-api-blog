@@ -6,6 +6,7 @@ const PORT = 3000
 const authRouter = require('./src/routes/auth')
 const blogRouter = require('./src/routes/blog')
 
+
 app.use(bodyParser.json()) // typeJSON
 
 // rules / aturan jika komputer lain / url selain localhost:3000 mengakses data ini

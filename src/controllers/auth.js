@@ -1,4 +1,6 @@
 const { validationResult } = require('express-validator')
+// require('../utils/mongoose-module')
+// const { User } = require('../models/auth')
 
 exports.createRegister = (req, res, next) => {
   
@@ -21,14 +23,13 @@ exports.createRegister = (req, res, next) => {
  
 }
 
-exports.readRegister = (req, res, next) => {
+exports.readRegister = async(req, res, next) => {
+ // const allUsers = await User.find()
+  console.log(allUsers)
   res.json({
     message: "readAccount successfully",
     data: {
-      id: 1,
-      userName: "irfan fauzi",
-      email: "irfan@yahoo.com",
-      password: "12345"
+      
     }
   })
   next()
