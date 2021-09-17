@@ -3,9 +3,7 @@ require('../utils/mongoose-module')
 const { User } = require('../models/auth')
 
 exports.createRegister = (req, res, next) => {
-  
   const errors = validationResult(req)
-  
   if(!errors.isEmpty()){
     const err = new Error('Input value tidak sesuai')
     err.errorStatus = 400
