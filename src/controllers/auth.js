@@ -1,12 +1,14 @@
-const { body, validationResult, check } = require('express-validator')
+const { validationResult } = require('express-validator')
 
 exports.createRegister = (req, res, next) => {
   
   const errors = validationResult(req)
+  
   if(!errors.isEmpty()){
-    return res.status(400).json({
-      errors: errors.array()
-    })
+    const err = new Error('Input value tidak sesuai')
+    err.errorStatus = 400
+    err.data = errors.array()
+    throw err
   } else {
     const { name, email, password } = req.body
     const result = {
