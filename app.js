@@ -20,8 +20,6 @@ app.use((req, res, next) => {
   next()
 })
 
-
-
 app.use('/v1/auth', authRouter)
 app.use('/v1/blog', blogRouter)
 
