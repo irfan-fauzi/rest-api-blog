@@ -1,4 +1,5 @@
 const express = require('express')
+const path= require('path')
 const bodyParser = require('body-parser')
 const multer = require('multer')
 const app = express()
@@ -28,6 +29,7 @@ const fileFilter = (req, file, cb) => {
 
 
 app.use(bodyParser.json()) // typeJSON
+app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
 
 // rules / aturan jika komputer lain / url selain localhost:3000 mengakses data ini
