@@ -12,20 +12,29 @@ exports.createBlog = (req, res, next) => {
     throw err
   } else {
 
-    const { image, title, bodyBlog } = req.body  
+    if(!req.file){
+      const err = new Error('Gambar belum di upload')
+      err.errorStatus = 400
+      err.data = errors.array()
+      throw err
+    }
+    
+    const title = req.body.title
+    const bodyBlog = req.body.bodyBlog
+    const image = req.file.path
+
     const blogPost = new BlogPost({ 
-      image, 
-      title, 
-      bodyBlog,
+      image, title, bodyBlog,
       author: { uid: 1, name: "ahmad-albar" }
       })
+
     blogPost.save().then()    
     const result = {
       message: "create blog successfully",
       blogPost
     }
-  res.status(201).json(result)
-  next()
+    res.status(201).json(result)
+    next()
   }
 }
 

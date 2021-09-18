@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const BlogPost = new Schema({
+  image: {
+    type: String,
+    required: true
+  }, 
   title: {
     type: String,
     required: true
@@ -14,10 +18,7 @@ const BlogPost = new Schema({
     type: Object,
     required: true
   },
-  image: {
-    type: String,
-    required: true
-  } 
+  
 }, {
   timestamps: true
 })

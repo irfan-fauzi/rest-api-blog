@@ -1,13 +1,34 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const multer = require('multer')
 const app = express()
 const PORT = 3000
 
 const authRouter = require('./src/routes/auth')
 const blogRouter = require('./src/routes/blog')
 
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'images')
+  },
+  filename: (req, file, cb) => {
+    cb(null, Math.random() + file.originalname )
+  }
+})
+
+const fileFilter = (req, file, cb) => {
+  if(file.mimetype === 'image/png' || 
+     file.mimetype === 'image/jpg' ||
+     file.mimetype === 'image/jpeg'){
+    cb(null, true)
+  } else {
+    cb(null, false)
+  }
+}
+
 
 app.use(bodyParser.json()) // typeJSON
+app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
 
 // rules / aturan jika komputer lain / url selain localhost:3000 mengakses data ini
 app.use((req, res, next) => {
@@ -32,6 +53,7 @@ app.use((error, req, res, next) => {
 
   res.status(status).json({ message , data })
 })
+
 
 // Create a Server
 app.listen(PORT)
