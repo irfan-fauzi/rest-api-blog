@@ -13,7 +13,11 @@ const BlogPost = new Schema({
   author: {
     type: Object,
     required: true
-  }
+  },
+  image: {
+    type: String,
+    required: true
+  } 
 }, {
   timestamps: true
 })

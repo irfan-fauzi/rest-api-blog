@@ -12,9 +12,9 @@ exports.createBlog = (req, res, next) => {
     throw err
   } else {
 
-    const { img, title, bodyBlog } = req.body  
+    const { image, title, bodyBlog } = req.body  
     const blogPost = new BlogPost({ 
-      img, 
+      image, 
       title, 
       bodyBlog,
       author: { uid: 1, name: "ahmad-albar" }
