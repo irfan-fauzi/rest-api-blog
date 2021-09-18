@@ -1,4 +1,6 @@
 const { validationResult } = require('express-validator')
+require('../utils/mongoose-module')
+const BlogPost = require('../models/blog')
 
 exports.createBlog = (req, res, next) => {
   const errors = validationResult(req)
@@ -9,47 +11,33 @@ exports.createBlog = (req, res, next) => {
     err.data = errors.array()
     throw err
   } else {
-    const { img, title, bodyBlog } = req.body
+
+    const { img, title, bodyBlog } = req.body  
+    const blogPost = new BlogPost({ 
+      img, 
+      title, 
+      bodyBlog,
+      author: { uid: 1, name: "ahmad-albar" }
+      })
+    blogPost.save().then()    
     const result = {
-    message: "create blog successfully",
-    data: { 
-      post_id : 1,  
-      created_at : "12/12/2021",
-      author : {
-        uid : 1,
-        name : "john doe", 
-      },
-      title, img, bodyBlog,
+      message: "create blog successfully",
+      blogPost
     }
-  }
   res.status(201).json(result)
   next()
   }
 }
 
-exports.readBlog = (req, res, next) => {
-  res.json([
-    {
-      "img": "https://images.unsplash.com/photo-1628191081071-a2b761bf21d9?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      "title": "how to design your product that can grow 20x",
-      "date": "18 juli 2021",
-      "author": "jenny wilson",
-      "desc": "uctor Porta. Augue vitae diam mauris faucibus blandit elit per, feugiat leo dui orci. Etiam vestibulum. Nostra netus per conubia dolor"
-    },
-    {
-      "img": "https://images.unsplash.com/photo-1628191081071-a2b761bf21d9?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      "title": "email Love- email inspiration template and discovery",
-      "date": "18 juli 2021",
-      "author": "Irfan fauzi",
-      "desc": "uctor Porta. Augue vitae diam mauris faucibus blandit elit per, feugiat leo dui orci. Etiam vestibulum. Nostra netus per conubia dolor"
-    },
-    {
-      "img": "https://images.unsplash.com/photo-1628191081071-a2b761bf21d9?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      "title": "the more important the work, the more important the rest",
-      "date": "18 juli 2021",
-      "author": "zlatan ibrahimovic",
-      "desc": "uctor Porta. Augue vitae diam mauris faucibus blandit elit per, feugiat leo dui orci. Etiam vestibulum. Nostra netus per conubia dolor"
-    },
-  ])
-  next
+exports.readBlog = async(req, res, next) => {
+  try {
+    const allPosts = await BlogPost.find()
+    res.json({
+      message: "read post successfully",
+      allPosts
+    })
+    next()
+  } catch (error) {
+    console.log(`ada masalah: ${error}`)
+  }
 }

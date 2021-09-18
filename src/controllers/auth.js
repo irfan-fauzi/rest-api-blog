@@ -1,6 +1,4 @@
 const { validationResult } = require('express-validator')
-
-
 require('../utils/mongoose-module')
 const { User } = require('../models/auth')
 
@@ -13,9 +11,8 @@ exports.createRegister = (req, res, next) => {
     err.data = errors.array()
     throw err
   } else {
-
     const { name, email, password } = req.body
-    const users = new User({name, email, password})
+    const users = new User({name, email, password, })
     users.save().then()
     const result = {
       message: "register successfully",
