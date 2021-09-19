@@ -1,4 +1,6 @@
 const { validationResult } = require('express-validator')
+const path = require('path')
+const fs = require('fs')
 require('../utils/mongoose-module')
 const BlogPost = require('../models/blog')
 
@@ -79,11 +81,20 @@ exports.updateBlogPost = async(req, res, next) => {
 exports.deleteBlogPost = async(req, res, next) => {
   try {
     const id = req.params.postId
-    const blog = await BlogPost.deleteOne({_id:id})
-    res.status(201).json({ message: "data berhasil di delete", blog })
+    const post = await BlogPost.findById(id)
+    removeImage(post.image)
+    const deleteOne = await BlogPost.deleteOne({_id: id})
+    res.status(200).json({message:"delete success", deleteOne})
+    next()
   } catch (error) {
-    next(error)
+    res.status(404).json({message: "error when delete post", error})
   }
+}
+
+// DELETE IMAGE IN THIS REPO
+const removeImage = (filePath) => {
+  const filePath1 = path.join(__dirname, '../..', filePath)
+  fs.unlink(filePath1, err => console.log(`ada masalah saat hapus image: ${err}`) )
 }
 
 // GET specified Blog BY ID
@@ -91,16 +102,10 @@ exports.getBlogPostById = async(req, res, next) => {
   try {
     const postId = req.params.postId
     const targetPost = await BlogPost.findById(postId)
-    if(!targetPost){
-      const err = new Error('id tidak ada')
-      err.errorStatus = 404
-      err.data = errors.array()
-      throw err
-    }
     res.status(200).json({message: "read specify post id successfully", targetPost})
     next()
   } catch (error) {
-    next(error)
+    res.status(404).json({message: "blog post not found", error})
   }
 }
 
@@ -108,8 +113,14 @@ exports.getBlogPostById = async(req, res, next) => {
 exports.getAllblogPost = async(req, res, next) => {
   try {
     const allPosts = await BlogPost.find()
-    res.json({message: "read all post successfully", allPosts})
-    next()
+    if(allPosts.length === 0){
+      const err = new Error('Post Blog Belum ada postingan')
+      err.errorStatus = 422
+      throw err
+    } else {
+      res.json({message: "read all post successfully", allPosts})
+      next()
+    }
   } catch (error) {
     next(error)
   }
