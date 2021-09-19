@@ -2,7 +2,7 @@ const { validationResult } = require('express-validator')
 require('../utils/mongoose-module')
 const BlogPost = require('../models/blog')
 
-exports.createBlog = (req, res, next) => {
+exports.createBlog = async(req, res, next) => {
   const errors = validationResult(req)
   
   if(!errors.isEmpty()){
@@ -11,7 +11,6 @@ exports.createBlog = (req, res, next) => {
     err.data = errors.array()
     throw err
   } else {
-
     if(!req.file){
       const err = new Error('Gambar belum di upload')
       err.errorStatus = 400
@@ -28,14 +27,18 @@ exports.createBlog = (req, res, next) => {
       author: { uid: 1, name: "ahmad-albar" }
       })
 
-    blogPost.save().then()    
+    const bp = await blogPost.save()    
     const result = {
       message: "create blog successfully",
-      blogPost
+      bp
     }
     res.status(201).json(result)
     next()
   }
+}
+
+exports.getBlogPostById = () => {
+
 }
 
 exports.readBlog = async(req, res, next) => {
