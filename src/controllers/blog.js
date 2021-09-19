@@ -5,7 +5,6 @@ const BlogPost = require('../models/blog')
 // POST
 exports.createBlog = async(req, res, next) => {
   const errors = validationResult(req)
-  
   if(!errors.isEmpty()){
     const err = new Error('Input value tidak sesuai')
     err.errorStatus = 400
@@ -14,7 +13,7 @@ exports.createBlog = async(req, res, next) => {
   } else {
     if(!req.file){
       const err = new Error('Gambar belum di upload')
-      err.errorStatus = 400
+      err.errorStatus = 422
       err.data = errors.array()
       throw err
     }
@@ -38,6 +37,46 @@ exports.createBlog = async(req, res, next) => {
   }
 }
 
+// PUT TO EDIT / UPDATE
+exports.updateBlogPost = async(req,res, next) => {
+  try {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+      const err = new Error('Input value tidak sesuai')
+      err.errorStatus = 400
+      err.data = errors.array()
+      throw err
+    }
+    if(!req.file){
+      const err = new Error('Gambar belum di upload')
+      err.errorStatus = 422
+      err.data = errors.array()
+      throw err
+    }
+    const title = req.body.title
+    const bodyBlog = req.body.bodyBlog
+    const image = req.file.path
+    const postId = req.params.postId
+    
+    const targetPost = await BlogPost.findById(postId)
+    if(!targetPost){
+      const error = new Error('data tidak ada')
+      error.errorStatus = 404
+      throw error
+    } else {
+      targetPost.title = title
+      targetPost.bodyBlog = bodyBlog
+      targetPost.image = image
+      const newPost = await targetPost.save()
+      res.status(201).json({
+        message: "data berhasil diupdate",
+        newPost
+      })
+    }
+  } catch (error) {
+    console.log(`ada maslaah: ${error}`)
+  }
+}
 // GET BY ID
 exports.getBlogPostById = async(req, res, next) => {
   try {
@@ -67,11 +106,3 @@ exports.getAllblogPost = async(req, res, next) => {
   }
 }
 
-// PUT TO EDIT / UPDATE
-exports.updateBlogPost = (req,res, next) => {
-  try {
-    
-  } catch (error) {
-    
-  }
-}
