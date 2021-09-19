@@ -64,7 +64,7 @@ exports.updateBlogPost = async(req, res, next) => {
     const image = req.file.path
     const postId = req.params.postId
     const targetPost = await BlogPost.findById(postId)
- 
+  
     targetPost.title = title
     targetPost.bodyBlog = bodyBlog
     targetPost.image = image
@@ -73,7 +73,7 @@ exports.updateBlogPost = async(req, res, next) => {
     next()
     
   } catch (error) {
-    next(error)
+    res.status(404).json({message: "error when update post blog", error})
   }
 }
 
