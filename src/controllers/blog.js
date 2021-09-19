@@ -38,7 +38,7 @@ exports.createBlog = async(req, res, next) => {
 }
 
 // PUT TO EDIT / UPDATE
-exports.updateBlogPost = async(req,res, next) => {
+exports.updateBlogPost = async(req, res, next) => {
   try {
     const errors = validationResult(req)
     if(!errors.isEmpty()){
@@ -59,24 +59,18 @@ exports.updateBlogPost = async(req,res, next) => {
     const postId = req.params.postId
     
     const targetPost = await BlogPost.findById(postId)
-    if(!targetPost){
-      const error = new Error('data tidak ada')
-      error.errorStatus = 404
-      throw error
-    } else {
-      targetPost.title = title
-      targetPost.bodyBlog = bodyBlog
-      targetPost.image = image
-      const newPost = await targetPost.save()
-      res.status(201).json({
-        message: "data berhasil diupdate",
-        newPost
-      })
-    }
+    targetPost.title = title
+    targetPost.bodyBlog = bodyBlog
+    targetPost.image = image
+    const newPost = await targetPost.save()
+    res.status(201).json({message: "data berhasil diupdate", newPost})
+    next()
   } catch (error) {
-    console.log(`ada maslaah: ${error}`)
+    next(error)
   }
 }
+
+
 // GET BY ID
 exports.getBlogPostById = async(req, res, next) => {
   try {
