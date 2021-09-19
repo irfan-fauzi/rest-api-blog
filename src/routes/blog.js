@@ -22,5 +22,8 @@ router.get('/posts', blogController.getAllblogPost)
 // Get specified post blog
 router.get('/post/:postId', blogController.getBlogPostById)
 
+// Delete specified post in Blog
+router.delete('/post/:postId', blogController.deleteBlogPost) 
+
 
 module.exports = router

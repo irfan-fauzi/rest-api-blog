@@ -75,8 +75,18 @@ exports.updateBlogPost = async(req, res, next) => {
   }
 }
 
+// DELETE SPECIFIED BLOG POST
+exports.deleteBlogPost = async(req, res, next) => {
+  try {
+    const id = req.params.postId
+    const blog = await BlogPost.deleteOne({_id:id})
+    res.status(201).json({ message: "data berhasil di delete", blog })
+  } catch (error) {
+    next(error)
+  }
+}
 
-// GET BY ID
+// GET specified Blog BY ID
 exports.getBlogPostById = async(req, res, next) => {
   try {
     const postId = req.params.postId
