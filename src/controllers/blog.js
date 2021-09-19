@@ -41,25 +41,25 @@ exports.getBlogPostById = async(req, res, next) => {
   try {
     const postId = req.params.postId
     const targetPost = await BlogPost.findById(postId)
-    res.json({
-      message: "read specify post id successfully",
-      targetPost
-    })
+    if(!targetPost){
+      const err = new Error('id tidak ada')
+      err.errorStatus = 404
+      err.data = errors.array()
+      throw err
+    }
+    res.status(200).json({message: "read specify post id successfully", targetPost})
     next()
   } catch (error) {
-    console.log(`ada masalah : ${error}`)
+    next(error)
   }
 }
 
 exports.getAllblogPost = async(req, res, next) => {
   try {
     const allPosts = await BlogPost.find()
-    res.json({
-      message: "read all post successfully",
-      allPosts
-    })
+    res.json({message: "read all post successfully", allPosts})
     next()
   } catch (error) {
-    console.log(`ada masalah: ${error}`)
+    console.log(`ada masalah : ${error}`)
   }
 }
