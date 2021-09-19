@@ -37,15 +37,25 @@ exports.createBlog = async(req, res, next) => {
   }
 }
 
-exports.getBlogPostById = () => {
-
+exports.getBlogPostById = async(req, res, next) => {
+  try {
+    const postId = req.params.postId
+    const targetPost = await BlogPost.findById(postId)
+    res.json({
+      message: "read specify post id successfully",
+      targetPost
+    })
+    next()
+  } catch (error) {
+    console.log(`ada masalah : ${error}`)
+  }
 }
 
-exports.readBlog = async(req, res, next) => {
+exports.getAllblogPost = async(req, res, next) => {
   try {
     const allPosts = await BlogPost.find()
     res.json({
-      message: "read post successfully",
+      message: "read all post successfully",
       allPosts
     })
     next()

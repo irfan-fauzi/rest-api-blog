@@ -9,7 +9,7 @@ router.post('/post', [
   body('title', 'title at least have 5 characters').isLength({min: 7})], 
   blogController.createBlog)
 
-router.get('/posts', blogController.readBlog)
-router.get('/post', blogController.getBlogPostById)
+router.get('/posts', blogController.getAllblogPost)
+router.get('/post/:postId', blogController.getBlogPostById)
 
 module.exports = router
