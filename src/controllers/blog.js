@@ -4,8 +4,9 @@ const BlogPost = require('../models/blog')
 
 // POST
 exports.createBlog = async(req, res, next) => {
-  const errors = validationResult(req)
-  if(!errors.isEmpty()){
+  try {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
     const err = new Error('Input value tidak sesuai')
     err.errorStatus = 400
     err.data = errors.array()
@@ -26,7 +27,6 @@ exports.createBlog = async(req, res, next) => {
       image, title, bodyBlog,
       author: { uid: 1, name: "ahmad-albar" }
       })
-
     const blogpost = await blogPost.save()    
     const result = {
       message: "create blog successfully",
@@ -34,6 +34,9 @@ exports.createBlog = async(req, res, next) => {
     }
     res.status(201).json(result)
     next()
+  }
+  } catch (error) {
+    next(error)
   }
 }
 
@@ -53,18 +56,20 @@ exports.updateBlogPost = async(req, res, next) => {
       err.data = errors.array()
       throw err
     }
+    
     const title = req.body.title
     const bodyBlog = req.body.bodyBlog
     const image = req.file.path
     const postId = req.params.postId
-    
     const targetPost = await BlogPost.findById(postId)
+ 
     targetPost.title = title
     targetPost.bodyBlog = bodyBlog
     targetPost.image = image
     const newPost = await targetPost.save()
     res.status(201).json({message: "data berhasil diupdate", newPost})
     next()
+    
   } catch (error) {
     next(error)
   }
@@ -96,7 +101,7 @@ exports.getAllblogPost = async(req, res, next) => {
     res.json({message: "read all post successfully", allPosts})
     next()
   } catch (error) {
-    console.log(`ada masalah : ${error}`)
+    next(error)
   }
 }
 
