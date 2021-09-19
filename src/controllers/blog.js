@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator')
 require('../utils/mongoose-module')
 const BlogPost = require('../models/blog')
 
+// POST
 exports.createBlog = async(req, res, next) => {
   const errors = validationResult(req)
   
@@ -37,6 +38,7 @@ exports.createBlog = async(req, res, next) => {
   }
 }
 
+// GET BY ID
 exports.getBlogPostById = async(req, res, next) => {
   try {
     const postId = req.params.postId
@@ -54,6 +56,7 @@ exports.getBlogPostById = async(req, res, next) => {
   }
 }
 
+// GET ALL DATA
 exports.getAllblogPost = async(req, res, next) => {
   try {
     const allPosts = await BlogPost.find()
@@ -61,5 +64,14 @@ exports.getAllblogPost = async(req, res, next) => {
     next()
   } catch (error) {
     console.log(`ada masalah : ${error}`)
+  }
+}
+
+// PUT TO EDIT / UPDATE
+exports.updateBlogPost = (req,res, next) => {
+  try {
+    
+  } catch (error) {
+    
   }
 }
