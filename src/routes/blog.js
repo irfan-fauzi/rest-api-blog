@@ -10,6 +10,6 @@ router.post('/post', [
   blogController.createBlog)
 
 router.get('/posts', blogController.readBlog)
-//router.get('/post', )
+router.get('/post', blogController.getBlogPostById)
 
 module.exports = router

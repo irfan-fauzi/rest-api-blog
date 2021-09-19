@@ -27,10 +27,10 @@ exports.createBlog = async(req, res, next) => {
       author: { uid: 1, name: "ahmad-albar" }
       })
 
-    const bp = await blogPost.save()    
+    const blogpost = await blogPost.save()    
     const result = {
       message: "create blog successfully",
-      bp
+      blogpost
     }
     res.status(201).json(result)
     next()
