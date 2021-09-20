@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator')
-require('../utils/mongoose-module')
+
 const { User } = require('../models/auth')
 
 

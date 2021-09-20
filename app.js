@@ -1,4 +1,5 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const path= require('path')
 const bodyParser = require('body-parser')
 const multer = require('multer')
@@ -7,6 +8,8 @@ const PORT = 3000
 
 const authRouter = require('./src/routes/auth')
 const blogRouter = require('./src/routes/blog')
+
+
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -44,6 +47,8 @@ app.use((req, res, next) => {
   next()
 })
 
+
+
 app.use('/v1/auth', authRouter)
 app.use('/v1/blog', blogRouter)
 
@@ -56,6 +61,12 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message , data })
 })
 
+mongoose.connect('mongodb://127.0.0.1:27017/mern-app')
+.then(() => {
+  // Create a Server
+    app.listen(PORT)
+})
+.catch(err => console.log(err) )
 
-// Create a Server
-app.listen(PORT)
+
+

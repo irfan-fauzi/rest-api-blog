@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator')
 const path = require('path')
 const fs = require('fs')
-require('../utils/mongoose-module')
+
 const BlogPost = require('../models/blog')
 
 // POST
@@ -83,7 +83,7 @@ exports.deleteBlogPost = async(req, res, next) => {
     const id = req.params.postId
     const post = await BlogPost.findById(id)
     removeImage(post.image)
-    const deleteOne = await BlogPost.deleteOne({_id: id})
+    const deleteOne = await BlogPost.deleteOne({ _id: id})
     res.status(200).json({message:"delete success", deleteOne})
     next()
   } catch (error) {
@@ -94,7 +94,7 @@ exports.deleteBlogPost = async(req, res, next) => {
 // DELETE IMAGE IN THIS REPO
 const removeImage = (filePath) => {
   const filePath1 = path.join(__dirname, '../..', filePath)
-  fs.unlink(filePath1, err => console.log(`ada masalah saat hapus image: ${err}`) )
+  fs.unlink(filePath1)
 }
 
 // GET specified Blog BY ID
@@ -124,5 +124,6 @@ exports.getAllblogPost = async(req, res, next) => {
   } catch (error) {
     next(error)
   }
+  
 }
 

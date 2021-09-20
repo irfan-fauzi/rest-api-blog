@@ -4,6 +4,9 @@ const { body } = require('express-validator')
 const blogController = require('../controllers/blog')
 const router = express.Router()
 
+
+// Get all data blog post
+router.get('/posts', blogController.getAllblogPost)
 // Post new post blog
 router.post('/post', [
   body('bodyBlog', 'postBlog at least have 10 characters').isLength({min: 7}), 
@@ -16,8 +19,7 @@ router.put('/post/:postId', [
   body('title', 'title at least have 5 characters').isLength({min: 7})],
   blogController.updateBlogPost)
 
-// Get all data blog post
-router.get('/posts', blogController.getAllblogPost)
+
 
 // Get specified post blog
 router.get('/post/:postId', blogController.getBlogPostById)
