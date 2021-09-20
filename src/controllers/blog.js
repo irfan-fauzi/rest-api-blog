@@ -123,15 +123,14 @@ exports.getAllblogPost = async(req, res, next) => {
     const perPage = req.query.perPage || 5
 
     let totalItems = await BlogPost.find().countDocuments()
-    console.log(totalItems)
-    let showPost = await BlogPost.find().skip((currentPage -1) * perPage).limit(perPage)
+    let allPosts = await BlogPost.find().skip((parseInt(currentPage) - 1) * parseInt(perPage)).limit(parseInt(perPage))
   
-    if(showPost.length === 0){
+    if(allPosts.length === 0){
       const err = new Error('Post Blog Belum ada postingan')
       err.errorStatus = 422
       throw err
     } else {
-      res.json({message: "read all post successfully", showPost})
+      res.json({message: "read all post successfully", total_post : totalItems, per_page: parseInt(perPage), current_page: parseInt(currentPage), allPosts})
       next()
     }
   } catch (error) {
