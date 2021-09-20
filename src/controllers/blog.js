@@ -119,14 +119,19 @@ exports.getBlogPostById = async(req, res, next) => {
 // GET ALL DATA
 exports.getAllblogPost = async(req, res, next) => {
   try {
-    
-    const allPosts = await BlogPost.find()
-    if(allPosts.length === 0){
+    const currentPage = req.query.page || 1
+    const perPage = req.query.perPage || 5
+
+    let totalItems = await BlogPost.find().countDocuments()
+    console.log(totalItems)
+    let showPost = await BlogPost.find().skip((currentPage -1) * perPage).limit(perPage)
+  
+    if(showPost.length === 0){
       const err = new Error('Post Blog Belum ada postingan')
       err.errorStatus = 422
       throw err
     } else {
-      res.json({message: "read all post successfully", allPosts})
+      res.json({message: "read all post successfully", showPost})
       next()
     }
   } catch (error) {
