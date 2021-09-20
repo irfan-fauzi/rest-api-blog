@@ -4,6 +4,7 @@ const fs = require('fs')
 
 const BlogPost = require('../models/blog')
 
+
 // POST
 exports.createBlog = async(req, res, next) => {
   try {
@@ -79,22 +80,48 @@ exports.updateBlogPost = async(req, res, next) => {
 
 // DELETE SPECIFIED BLOG POST
 exports.deleteBlogPost = async(req, res, next) => {
+  
+  // const postId = req.params.postId
+  // BlogPost.findById(postId)
+  //   .then(post => {
+  //     if(!post){
+  //       const error = new Error('Blog Post tidak ditemukan')
+  //       error.errorStatus = 404
+  //       throw error
+  //     }
+  //     removeImage(post.image)
+  //     return BlogPost.findByIdAndRemove(postId)
+  //   })
+  //   .then(result => {
+  //     res.status(200).json({
+  //       message: "haus data berhasil",
+  //       data: result
+  //     })
+  //   })
+  //   .catch(err => {
+  //     next(err)
+  //   })
   try {
-    const id = req.params.postId
-    const post = await BlogPost.findById(id)
+    const postId = req.params.postId
+    const post = await BlogPost.findById(postId)
     removeImage(post.image)
-    const deleteOne = await BlogPost.deleteOne({ _id: id})
-    res.status(200).json({message:"delete success", deleteOne})
+    const removedPost = await BlogPost.findByIdAndRemove(postId)
+    res.status(200).json({
+      message: "delete berhasil",
+      data: removedPost
+    })
     next()
   } catch (error) {
-    res.status(404).json({message: "error when delete post", error})
+    res.status(404).json({
+      message: "error when delete", error
+    })
   }
 }
 
 // DELETE IMAGE IN THIS REPO
 const removeImage = (filePath) => {
-  const filePath1 = path.join(__dirname, '../..', filePath)
-  fs.unlink(filePath1)
+  filePath = path.join(__dirname, '../..', filePath)
+  fs.unlink(filePath, err => console.log(err))
 }
 
 // GET specified Blog BY ID
