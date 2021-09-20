@@ -81,26 +81,6 @@ exports.updateBlogPost = async(req, res, next) => {
 // DELETE SPECIFIED BLOG POST
 exports.deleteBlogPost = async(req, res, next) => {
   
-  // const postId = req.params.postId
-  // BlogPost.findById(postId)
-  //   .then(post => {
-  //     if(!post){
-  //       const error = new Error('Blog Post tidak ditemukan')
-  //       error.errorStatus = 404
-  //       throw error
-  //     }
-  //     removeImage(post.image)
-  //     return BlogPost.findByIdAndRemove(postId)
-  //   })
-  //   .then(result => {
-  //     res.status(200).json({
-  //       message: "haus data berhasil",
-  //       data: result
-  //     })
-  //   })
-  //   .catch(err => {
-  //     next(err)
-  //   })
   try {
     const postId = req.params.postId
     const post = await BlogPost.findById(postId)
@@ -139,6 +119,7 @@ exports.getBlogPostById = async(req, res, next) => {
 // GET ALL DATA
 exports.getAllblogPost = async(req, res, next) => {
   try {
+    
     const allPosts = await BlogPost.find()
     if(allPosts.length === 0){
       const err = new Error('Post Blog Belum ada postingan')
